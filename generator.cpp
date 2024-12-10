@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
         // tree is a star
         for(int i = 1;i<=N;++i) p[i] = 0;
     } else if(test_case % tot == 2) {
-        // all chambers are connected to 1 other than 0
+        // all chambers are connected to 1
         p[1] = 0;
         for(int i = 2;i<=N;++i) p[i] = 1;
     } else if(test_case % tot <= 10) {
