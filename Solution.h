@@ -1,5 +1,5 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <cassert>
 
 struct Solution {
@@ -44,23 +44,23 @@ struct Solution {
 
         if(test_case <= 36) assert(1 <= n && n <= 1000);
         assert(1 <= n && n <= 1e6);
-        printf("%d\n", n);
+        std::cout << n << '\n';
 
         for (int i = 1; i <= n; i++) {
             assert(0 <= p[i] && p[i] < i);
-            printf("%d%c", p[i], " \n"[i==n]);
+            std::cout << p[i] << " \n"[i==n];
             children[p[i]].push_back(i);
         }
         
         int cnt = 0;
         for(int i = 1;i<=n;++i) {
             cnt += o[i].size();
-            printf("%d", o[i].size());
+            std::cout << o[i].size();
             for(int j = 0;j<o[i].size();++j) {
-                printf(" %d", o[i][j]);
+                std::cout << " " << o[i][j];
                 assert(1 <= o[i][j] && o[i][j] <= 1e6);
             }
-            printf("\n");
+            std::cout << "\n";
         }
         if(test_case <= 36) assert(1 <= cnt && cnt <= 2000);
         assert(cnt <= 2e6);
@@ -78,7 +78,7 @@ struct Solution {
         }
         ores = &o;
         dfs(0);
-        for(int i = 1;i<=n;++i) fprintf(stderr, "%d\n", ans[i]);
+        for(int i = 1;i<=n;++i) std::cerr << ans[i] << '\n';
         return 0;
     }
 };
