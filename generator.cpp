@@ -4,7 +4,7 @@
 #include "Solution.h"
 
 std::mt19937 rng(0);
-#define random(a, b) (rng() % (b - a + 1) + a)
+#define RANDOM(a, b) (rng() % (b - a + 1) + a)
 
 int main(int argc, char **argv) {
     using namespace std;
@@ -36,18 +36,18 @@ int main(int argc, char **argv) {
     } else if(test_case % tot <= 10) {
         // single random tree
         p[1] = 0;
-        for(int i = 2;i<=N;++i) p[i] = random(1, i - 1);
+        for(int i = 2;i<=N;++i) p[i] = RANDOM(1, i - 1);
     } else if(test_case % tot <= 15) {
-        // random forest
-        for(int i = 1;i<=N;++i) p[i] = random(0, i - 1);
+        // RANDOM forest
+        for(int i = 1;i<=N;++i) p[i] = RANDOM(0, i - 1);
     } else if(test_case % tot <= 20) {
         // one tree with larger depth
         p[1] = 0;
-        for(int i = 2;i<=N;++i) p[i] = random(max(1, i - 50), i - 1);
+        for(int i = 2;i<=N;++i) p[i] = RANDOM(max(1, i - 50), i - 1);
     } else if(test_case % tot <= 25) {
         // multiple trees with larger depth
         p[1] = 0;
-        for(int i = 2;i<=N;++i) p[i] = rng() % (tot * 100) == 0 ? 0 : random(max(0, i - 50), i - 1);
+        for(int i = 2;i<=N;++i) p[i] = rng() % (tot * 100) == 0 ? 0 : RANDOM(max(0, i - 50), i - 1);
     } else if(test_case % tot <= 26) {
         // binary tree
         p[1] = 0;
@@ -57,14 +57,14 @@ int main(int argc, char **argv) {
         p[1] = 0;
         vector<int> hson(N + 1), nodes;
         nodes.push_back(1);
-        int rand = (test_case - 26) * 100 / random(1, 10);
+        int rand = (test_case - 26) * 100 / RANDOM(1, 10);
         for(int i = 2;i<=N;++i) {
-            if(random(1, random(1, rand)) == 1) {
+            if(RANDOM(1, RANDOM(1, rand)) == 1) {
                 // 1/1000 nodes randomly append
-                p[i] = random(1, i - 1);
+                p[i] = RANDOM(1, i - 1);
             } else {
                 // otherwise randomly append to a heavy child
-                p[i] = nodes[random(0, nodes.size() - 1)];
+                p[i] = nodes[RANDOM(0, nodes.size() - 1)];
                 if(hson[p[i]] == 0) {
                     hson[p[i]] = i;
                     nodes.push_back(i);
@@ -73,41 +73,41 @@ int main(int argc, char **argv) {
         }
     } else if(test_case % tot <= 40) {
         // random forest
-        for(int i = 1;i<=N;++i) p[i] = random(0, i - 1);
+        for(int i = 1;i<=N;++i) p[i] = RANDOM(0, i - 1);
     }
 
     o.resize(N + 1);
     if(test_case % tot == 0) {
         // every chamber has Msum / N ores
         for(int i = 1;i<=N;++i) {
-            o[i].resize(random(0, Msum / N));
-            for(int& x : o[i]) x = random(1, T);
+            o[i].resize(RANDOM(0, Msum / N));
+            for(int& x : o[i]) x = RANDOM(1, T);
         }
     } else if(test_case % tot <=5) {
         // ores concentrated along nodes with smaller indexes
         for(int i = 1;i<=N;++i) {
-            o[i].resize(random(0, Msum));
+            o[i].resize(RANDOM(0, Msum));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, T);
+            for(int& x : o[i]) x = RANDOM(1, T);
         }
     } else if(test_case % tot <= 10) {
         // ores concentrated along nodes with bigger indexes
         for(int i = N;i;--i) {
-            o[i].resize(random(0, Msum));
+            o[i].resize(RANDOM(0, Msum));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, T);
+            for(int& x : o[i]) x = RANDOM(1, T);
         }
     } else if(test_case % tot <= 15) {
         // all ores are at node N
         o[N].resize(Msum);
-        for(int& x : o[N]) x = random(1, T);
+        for(int& x : o[N]) x = RANDOM(1, T);
     } else if(test_case % tot == 16) {
         Msum = min(Msum, T);
         int cnt = Msum;
         // all ores are unique, quadratic distrubution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
         // all ores are of type 1, quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
@@ -127,12 +127,12 @@ int main(int argc, char **argv) {
         // quadratic distrubution on T and Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
             for(int& x : o[i]) {
-                double tmp = random(0, T * 1000) / 1000.0;
+                double tmp = RANDOM(0, T * 1000) / 1000.0;
                 x = (int)(tmp * tmp / T);
                 if(x == 0) x = 1;
             }
@@ -141,36 +141,36 @@ int main(int argc, char **argv) {
         // only ores of type [1, 10], quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 10);
+            for(int& x : o[i]) x = RANDOM(1, 10);
         }
     } else if(test_case % tot == 20) {
         // only ores of type [1, 100], quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 100);
+            for(int& x : o[i]) x = RANDOM(1, 100);
         }
     } else if(test_case % tot == 21) {
         // all ores are of type 1, each node have size of max 10
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(10, Msum)));
+            o[i].resize(RANDOM(0, min(10, Msum)));
             Msum -= o[i].size();
             for(int& x : o[i]) x = 1;
         }
     } else if(test_case % tot == 22) {
         // quadratic distrubution on T, each node have size of max 10000
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(10000, Msum)));
+            o[i].resize(RANDOM(0, min(10000, Msum)));
             Msum -= o[i].size();
             for(int& x : o[i]){
-                double tmp = random(0, T * 1000) / 1000.0;
+                double tmp = RANDOM(0, T * 1000) / 1000.0;
                 x = (int)(tmp * tmp / T);
                 if(x == 0) x = 1;
             }
@@ -178,16 +178,16 @@ int main(int argc, char **argv) {
     } else if(test_case % tot == 23) {
         // only ores of type [1, 10], each node have size of max 1000
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(1000, Msum)));
+            o[i].resize(RANDOM(0, min(1000, Msum)));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 10) * T / 100;
+            for(int& x : o[i]) x = RANDOM(1, 10) * T / 100;
         }
     } else if(test_case % tot == 24) {
         // only ores of type [1, 100], each node have size of max 100
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(100, Msum)));
+            o[i].resize(RANDOM(0, min(100, Msum)));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 100) * T / 100;
+            for(int& x : o[i]) x = RANDOM(1, 100) * T / 100;
         }
     } else if(test_case % tot == 25) {
         Msum = min(Msum, T);
@@ -195,7 +195,7 @@ int main(int argc, char **argv) {
         // all ores are unique, quadratic distrubution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
         // all ores are unique, quadratic distrubution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
         // all ores are of type 1, quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
@@ -227,12 +227,12 @@ int main(int argc, char **argv) {
         // quadratic distrubution on T and Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
             for(int& x : o[i]) {
-                double tmp = random(0, T * 1000) / 1000.0;
+                double tmp = RANDOM(0, T * 1000) / 1000.0;
                 x = (int)(tmp * tmp / T);
                 if(x == 0) x = 1;
             }
@@ -241,36 +241,36 @@ int main(int argc, char **argv) {
         // only ores of type [1, 10], quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 10);
+            for(int& x : o[i]) x = RANDOM(1, 10);
         }
     } else if(test_case % tot == 30) {
         // only ores of type [1, 100], quadratic distribution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 100);
+            for(int& x : o[i]) x = RANDOM(1, 100);
         }
     } else if(test_case % tot == 31) {
         // all ores are of type 1, each node have size of max 10
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(10, Msum)));
+            o[i].resize(RANDOM(0, min(10, Msum)));
             Msum -= o[i].size();
             for(int& x : o[i]) x = 1;
         }
     } else if(test_case % tot == 32) {
         // quadratic distrubution on T, each node have size of max 10
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(100, Msum)));
+            o[i].resize(RANDOM(0, min(100, Msum)));
             Msum -= o[i].size();
             for(int& x : o[i]) {
-                double tmp = random(0, T * 1000) / 1000.0;
+                double tmp = RANDOM(0, T * 1000) / 1000.0;
                 x = (int)(tmp * tmp / T);
                 if(x == 0) x = 1;
             }
@@ -278,16 +278,16 @@ int main(int argc, char **argv) {
     } else if(test_case % tot == 33) {
         // only ores of type [1, 10], each node have size of max 1000
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(1000, Msum)));
+            o[i].resize(RANDOM(0, min(1000, Msum)));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 10);
+            for(int& x : o[i]) x = RANDOM(1, 10);
         }
     } else if(test_case % tot == 34) {
         // only ores of type [1, 100], each node have size of max 100
         for(int i = N;i;--i) {
-            o[i].resize(random(0, min(100, Msum)));
+            o[i].resize(RANDOM(0, min(100, Msum)));
             Msum -= o[i].size();
-            for(int& x : o[i]) x = random(1, 100);
+            for(int& x : o[i]) x = RANDOM(1, 100);
         }
     } else if(test_case % tot == 35) {
         Msum = min(Msum, T);
@@ -295,7 +295,7 @@ int main(int argc, char **argv) {
         // all ores are unique, quadratic distrubution on Msum
         for(int i = N;i;--i) {
             if(Msum > 0) {
-                double tmp = random(0, Msum * 1000) / 1000.0;
+                double tmp = RANDOM(0, Msum * 1000) / 1000.0;
                 o[i].resize((int)(tmp * tmp / Msum));
             }
             Msum -= o[i].size();
